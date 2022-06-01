@@ -1,3 +1,4 @@
+import sys
 from app import app, db, queue_client
 from datetime import datetime
 from app.models import Attendee, Conference, Notification
@@ -6,6 +7,7 @@ from azure.servicebus import Message
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import logging
+import json
 
 @app.route('/')
 def index():
@@ -66,26 +68,12 @@ def notification():
         try:
             db.session.add(notification)
             db.session.commit()
-
-            ##################################################
-            ## TODO: Refactor This logic into an Azure Function
-            ## Code below will be replaced by a message queue
-            #################################################
-            attendees = Attendee.query.all()
-
-            for attendee in attendees:
-                subject = '{}: {}'.format(attendee.first_name, notification.subject)
-                send_email(attendee.email, subject, notification.message)
-
-            notification.completed_date = datetime.utcnow()
-            notification.status = 'Notified {} attendees'.format(len(attendees))
-            db.session.commit()
-            # TODO Call servicebus queue_client to enqueue notification ID
-
-            #################################################
-            ## END of TODO
-            #################################################
-
+            #logging.info(notification.id)
+            #msg_payload = str(notification.id).encode('utf-8')
+            #logging.debug(msg_payload)
+            
+            msg = Message(str(notification.id))
+            queue_client.send(msg)
             return redirect('/Notifications')
         except :
             logging.error('log unable to save notification')
@@ -96,7 +84,7 @@ def notification():
 
 
 def send_email(email, subject, body):
-    if not app.config.get('SENDGRID_API_KEY')
+    if not app.config.get('SENDGRID_API_KEY'):
         message = Mail(
             from_email=app.config.get('ADMIN_EMAIL_ADDRESS'),
             to_emails=email,

@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/1ae19432-fc86-42e6-b240-1756073d5590/microsoft.web/sites/subscriptions/1ae19432-fc86-42e6-b240-1756073d5590/resourceGroups/techconf_rg/providers/Microsoft.Web/sites/techconfapprmh",
+    "appService.deploySubpath": "."
+}
