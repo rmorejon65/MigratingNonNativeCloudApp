@@ -68,7 +68,7 @@
  | *Storage Account*   |General V1      |0.00              |
  | *Application Service*   |App Svc Plan F1 |0.00              |
  | *Function App*   |Region East US Tier Consumption        |0.00             |
-
+ | *Twilio Sendgrid*   |Free 100        |0.00             |
 
  |  |  |      |              |
 
