@@ -87,6 +87,7 @@ Also with this migration option the infrastructure is manage for us, so now we c
 
 For the Azure Function :
  As when the admin sends out notifications it's currently taking a long time because it's looping through all attendees resulting in some HTTP timeout exceptions so we need to move the logic to a background job that can execute the process asynchronously.
+ 
 The selection of the Azure Service Bus Queue was based on :
 Queues offer First In, First Out (FIFO) message delivery to one or more competing consumers. That is, receivers typically receive and process messages in the order in which they were added to the queue. 
 And, only one message consumer receives and processes each message. A key benefit of using queues is to achieve temporal decoupling of application components. 
